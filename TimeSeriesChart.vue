@@ -19,7 +19,6 @@
             anchor="center right"
             self="center left">
             <div>Pause {{label}}</div>
-            <q-icon name="fas fa-sort-down q-mr-xs" />
           </q-tooltip>
         </q-icon>
         <q-icon
@@ -32,7 +31,6 @@
             anchor="center right"
             self="center left">
             <div>Resume {{label}}</div>
-            <q-icon name="fas fa-sort-down q-mr-xs" />
           </q-tooltip>
         </q-icon>
       </span>
