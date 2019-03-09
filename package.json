@@ -1,0 +1,40 @@
+{
+  "name": "bedrock-vue-stats",
+  "version": "1.0.0",
+  "description": "Vue.js graphs via Chart.js for bedrock web stats.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "peerDependencies": {
+    "bedrock-quasar": "^2.0.0",
+    "vue": "^2.6.6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digitalbazaar/bedrock-vue-stats.git"
+  },
+  "keywords": [
+    "bedrock"
+  ],
+  "author": {
+    "name": "Digital Bazaar, Inc.",
+    "email": "support@digitalbazaar.com",
+    "url": "https://digitalbazaar.com"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/digitalbazaar/bedrock-vue-stats/issues"
+  },
+  "homepage": "https://github.com/digitalbazaar/bedrock-vue-stats#readme",
+  "bedrock": {
+    "browserDependencies": "all"
+  },
+  "dependencies": {
+    "chart.js": "^2.7.3"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.1",
+    "eslint-config-digitalbazaar": "^1.7.0"
+  }
+}
