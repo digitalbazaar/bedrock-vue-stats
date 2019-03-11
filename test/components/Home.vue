@@ -3,6 +3,7 @@
     class="column gutter-md background"
     padding>
     <div class="row">
+      <h4>Gauge Chart</h4>
       <span class="col-4">
         <br-gauge-chart
           title="CPU"
@@ -11,21 +12,9 @@
           unit="CPUS"
           :last="charts.lastCPU" />
       </span>
-      <span class="col-4">
-        <br-gauge-chart
-          title="RAM"
-          :color="colors().ram"
-          :max="charts.maxRAM"
-          :last="charts.lastRAM" />
-      </span>
-      <span class="col-4">
-        <br-gauge-chart
-          title="Disk Space"
-          :color="colors().disk"
-          :max="charts.maxDISK"
-          :last="charts.lastDISK" />
-      </span>
     </div>
+    <div>
+      <h4>Static Line Chart</h4>
     <br-time-series-chart
       id="load-avg"
       :line="colors().line"
@@ -33,21 +22,18 @@
       :max="charts.maxCPU"
       :series="charts.loadavg"
       label="CPU Usage" />
-    <br-time-series-chart
-      id="mem-used"
-      :line="colors().line"
-      :fill="colors(0.8).ram"
-      :max="charts.maxRAM"
-      :series="charts.memused"
-      realtime
-      label="RAM Usage GB" />
+    </div>
+    <div>
+      <h4>Real time Line Chart </h4>
     <br-time-series-chart
       id="fs-used"
       :line="colors().line"
       :fill="colors(0.8).disk"
       :max="charts.maxDISK"
       :series="charts.fssize"
+       realtime
       label="Disk Space in GB" />
+    </div>
   </q-page>
 </template>
 <script>
