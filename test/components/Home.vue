@@ -16,23 +16,23 @@
     <div>
       <h4>Static Line Chart</h4>
     <br-time-series-chart
-      id="load-avg"
+      id="static-chart"
       :line="colors().line"
-      :fill="colors(0.8).cpu"
-      :max="charts.maxCPU"
-      :series="charts.loadavg"
-      label="CPU Usage" />
+      :fill="colors(0.8).disk"
+      :max="8"
+      :series="staticSeries"
+      label="Static Example" />
     </div>
     <div>
       <h4>Real time Line Chart </h4>
       <br-time-series-chart
-      id="fs-used"
-      :line="colors().line"
-      :fill="colors(0.8).disk"
-      :max="charts.maxDISK"
-      :series="charts.fssize"
-       realtime
-      label="Disk Space in GB" />
+        id="mem-used"
+        :line="colors().line"
+        :fill="colors(0.8).ram"
+        :max="charts.maxRAM"
+        :series="charts.memused"
+        realtime
+        label="RAM Usage GB" />
     </div> 
   </q-page>
 </template>
@@ -45,12 +45,14 @@
 // FIXME: chartjs is loaded as a global in index.js as a hack
 import {StatsService} from 'bedrock-web-stats';
 import {BrGaugeChart, BrTimeSeriesChart} from 'bedrock-vue-stats';
+import staticSeries from '../mocks/staticSeries.json';
 
 export default {
   name: 'Home',
   components: {BrGaugeChart, BrTimeSeriesChart},
   data() {
     return {
+      staticSeries,
       charts: {last: {}},
     };
   },
