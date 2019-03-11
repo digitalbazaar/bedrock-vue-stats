@@ -7,6 +7,7 @@
         :options="times"
         @input="changeTime()" />
       <span
+        v-if="realtime"
         class="col-1 q-mx-lg"
         @click="pause">
         <q-icon
@@ -42,13 +43,16 @@
 </template>
 
 <script>
-/* globals Chart */
-import 'chart.js';
-import 'chartjs-plugin-streaming';
+import Chart from 'chart.js';
+import streaming from 'chartjs-plugin-streaming';
 
 export default {
   Name: 'TimeSeriesChart',
   props: {
+    realtime: {
+      type: Boolean,
+      default: () => false
+    },
     label: {
       type: String,
       default: () => 'Label'
@@ -122,8 +126,26 @@ export default {
     }
   },
   mounted() {
+    const realtime = {
+      type: 'realtime',
+      realtime: {
+        duration: this.duration,
+        pause: false
+      },
+      time: {
+        unit: this.timeUnit,
+      }
+    };
+    const time = {
+      type: 'time',
+      time: {
+        unit: this.timeUnit
+      },
+      realtime: false
+    };
     const myChart = new Chart(this.$refs.canvas, {
       type: 'line',
+      plugins: this.realtime ? [streaming] : undefined,
       data: {
         datasets: [{
           label: this.label,
@@ -136,16 +158,7 @@ export default {
       },
       options: {
         scales: {
-          xAxes: [{
-            type: 'realtime',
-            realtime: {
-              duration: this.duration,
-              pause: false
-            },
-            time: {
-              unit: this.timeUnit,
-            }
-          }],
+          xAxes: [this.realtime ? realtime : time],
           yAxes: [
             {
               ticks: {
@@ -158,6 +171,9 @@ export default {
         },
         animation: {
           duration: 40
+        },
+        plugins: {
+          streaming: this.realtime ? {} : false
         }
       }
     });

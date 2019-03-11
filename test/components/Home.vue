@@ -25,7 +25,7 @@
     </div>
     <div>
       <h4>Real time Line Chart </h4>
-    <br-time-series-chart
+      <br-time-series-chart
       id="fs-used"
       :line="colors().line"
       :fill="colors(0.8).disk"
@@ -33,7 +33,7 @@
       :series="charts.fssize"
        realtime
       label="Disk Space in GB" />
-    </div>
+    </div> 
   </q-page>
 </template>
 <script>

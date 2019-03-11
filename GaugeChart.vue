@@ -17,8 +17,7 @@
 </template>
 
 <script>
-/* globals Chart */
-import 'chart.js';
+import Chart from 'chart.js';
 
 export default {
   Name: 'GaugeChart',
