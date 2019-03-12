@@ -15,13 +15,13 @@
     </div>
     <div>
       <h4>Static Line Chart</h4>
-    <br-time-series-chart
-      id="static-chart"
-      :line="colors().line"
-      :fill="colors(0.8).disk"
-      :max="8"
-      :series="staticSeries"
-      label="Static Example" />
+      <br-time-series-chart
+        id="static-chart"
+        :line="colors().line"
+        :fill="colors(0.8).disk"
+        :max="8"
+        :series="staticSeries"
+        label="Static Example" />
     </div>
     <div>
       <h4>Real time Line Chart </h4>
@@ -33,7 +33,7 @@
         :series="charts.memused"
         realtime
         label="RAM Usage GB" />
-    </div> 
+    </div>
   </q-page>
 </template>
 <script>
