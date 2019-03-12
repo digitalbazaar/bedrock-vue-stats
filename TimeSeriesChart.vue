@@ -179,6 +179,7 @@ export default {
       }
     });
     this.chart = myChart;
+    this.updateMax(this.max);
   },
   methods: {
     pause() {
