@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div class="row q-pa-lg">
+    <div
+      v-if="realtime"
+      class="row q-pa-lg">
       <q-select
         v-model="timeUnit"
         class="col-2"
         :options="times"
         @input="changeTime()" />
       <span
-        v-if="realtime"
         class="col-1 q-mx-lg"
         @click="pause">
         <q-icon
@@ -107,8 +108,11 @@ export default {
   },
   computed: {
     times() {
-      return this.units.map(
-        u => ({label: u, value: u})).slice(1, 3);
+      const options = this.units.map(u => ({label: u, value: u}));
+      if(!this.realtime) {
+        return options;
+      }
+      return options.slice(1, 3);
     }
   },
   watch: {
@@ -138,10 +142,7 @@ export default {
     };
     const time = {
       type: 'time',
-      time: {
-        unit: this.timeUnit
-      },
-      realtime: false
+      realtime: false,
     };
     const myChart = new Chart(this.$refs.canvas, {
       type: 'line',
@@ -173,7 +174,7 @@ export default {
           duration: 40
         },
         plugins: {
-          streaming: this.realtime ? {} : false
+          streaming: this.realtime ? {frameRate: 10} : false
         }
       }
     });
@@ -186,9 +187,38 @@ export default {
       axis.realtime.pause = this.paused;
       this.chart.update();
     },
+    calcTimeStep() {
+      const maxTicks = 25;
+      const diff = this.series[this.series.length - 1].x - this.series[0].x;
+      const second = 1000;
+      const minute = second * 60;
+      const hour = minute * 60;
+      const day = hour * 24;
+      const week = day * 7;
+      const month = week * 4;
+      const year = month * 12;
+      const times = {
+        millisecond: 1,
+        second,
+        minute,
+        hour,
+        day,
+        week,
+        month,
+        year
+      };
+      let step = 1;
+      const time = times[this.timeUnit];
+      if(time) {
+        const units = Math.ceil(diff / time);
+        step = Math.ceil(units / maxTicks);
+      }
+      return step;
+    },
     changeTime() {
       const [axis] = this.chart.options.scales.xAxes;
       axis.time.unit = this.timeUnit;
+      axis.time.stepSize = this.calcTimeStep();
       this.chart.update();
     },
     updateMax(max) {
