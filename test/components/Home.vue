@@ -1,5 +1,6 @@
 <template>
   <q-page
+    v-if="!loading"
     class="column gutter-md background"
     padding>
     <div class="row">
@@ -8,9 +9,9 @@
         <br-gauge-chart
           title="CPU"
           :color="colors().cpu"
-          :max="charts.maxCPU"
+          :max="cpu.chart.max"
           unit="CPUS"
-          :last="charts.lastCPU" />
+          :last="cpu.chart.last" />
       </span>
     </div>
     <div>
@@ -29,8 +30,8 @@
         id="mem-used"
         :line="colors().line"
         :fill="colors(0.8).ram"
-        :max="charts.maxRAM"
-        :series="charts.memused"
+        :max="ramseries.chart.max"
+        :series="ramseries.chart.series"
         realtime
         label="RAM Usage GB" />
     </div>
@@ -43,7 +44,7 @@
 'use strict';
 
 // FIXME: chartjs is loaded as a global in index.js as a hack
-import {StatsService} from 'bedrock-web-stats';
+import {ChartController} from 'bedrock-web-stats';
 import {BrGaugeChart, BrTimeSeriesChart} from 'bedrock-vue-stats';
 import staticSeries from '../mocks/staticSeries.json';
 
@@ -54,13 +55,36 @@ export default {
     return {
       staticSeries,
       charts: {last: {}},
+      cpu: null,
+      ramseries: null
     };
   },
-  beforeCreate() {
-    this._statsService = new StatsService({poll: 2000});
+  computed: {
+    loading() {
+      if(!this.cpu) {
+        return true;
+      }
+      return this.cpu.loading;
+    }
   },
   mounted() {
-    this._statsService.subscribe({id: 'demo', updater: this.subscriber});
+    this.$set(this, 'cpu', new ChartController(
+      {
+        type: 'pie',
+        format: {
+          prefix({last}) {return last.monitors.os.currentLoad;},
+          last(p) {return p.avgload;},
+          max(p) {return p.cpus.length;}
+        }}));
+    this.$set(this, 'ramseries', new ChartController(
+      {
+        type: 'realtime',
+        format: {
+          prefix({latest}) {return latest.map(r => r.monitors.os.mem);},
+          y(p) {return p.active / this.units.gb;},
+          max(p) {return p.total / this.units.gb;}
+        }}));
+
   },
   methods: {
     colors(alpha = 1) {
