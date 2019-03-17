@@ -64,19 +64,10 @@ export default {
       return Math.ceil(this.max * this.last);
     },
     percentage() {
-      return (this.last * 100).toFixed(0);
-    }
-  },
-  watch: {
-    last(latest) {
-      this.last = Number(latest).toFixed(2);
-      if(!latest) {
-        return false;
-      }
-      const [values] = this.chart.data.datasets;
-      const next = [this.last, (1 - this.last).toFixed(2)];
-      values.data = next;
-      this.chart.update();
+      // note: this computed property updates both the html and the canvas data
+      // this will only continue to update if percentage is in the template
+      this.setChartData(this.last);
+      return Math.ceil(this.last * 100);
     }
   },
   mounted() {
@@ -105,6 +96,18 @@ export default {
         }
       }
     });
+  },
+  methods: {
+    setChartData(latest) {
+      if(!latest || !this.chart) {
+        return false;
+      }
+      this.last = Number(latest).toFixed(2);
+      const [values] = this.chart.data.datasets;
+      const next = [this.last, (1 - this.last).toFixed(2)];
+      values.data = next;
+      this.chart.update();
+    }
   }
 };
 </script>
