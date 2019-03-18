@@ -117,11 +117,7 @@ export default {
   },
   watch: {
     series(newSeries) {
-      newSeries.forEach(p => {
-        p.y = p.y.toFixed(2);
-        this.chart.data.datasets[0].data.push(p);
-      });
-      this.chart.update();
+      this.updateSeries(newSeries);
     },
     max(newMax, oldMax) {
       if(newMax !== oldMax) {
@@ -182,6 +178,13 @@ export default {
     this.updateMax(this.max);
   },
   methods: {
+    updateSeries(newSeries) {
+      newSeries.forEach(p => {
+        p.y = Number(p.y).toFixed(2);
+        this.chart.data.datasets[0].data.push(p);
+      });
+      this.chart.update();
+    },
     pause() {
       const [axis] = this.chart.options.scales.xAxes;
       this.paused = !this.paused;
