@@ -1,6 +1,8 @@
 <template>
   <div class="relative gauge-holder">
-    <canvas ref="chart" />
+    <canvas
+      ref="chart"
+      :data="chartData" />
     <div class="absolute-center text-center">
       <p class="percent-holder">
         <span
@@ -65,12 +67,9 @@ export default {
     },
     percentage() {
       return Math.ceil(this.last * 100);
-    }
-  },
-  watch: {
-    last: {
-      handler(newVal, oldVal) {this.setChartData(newVal || oldVal);},
-      immediate: true
+    },
+    chartData() {
+      return this.setChartData(this.last);
     }
   },
   mounted() {

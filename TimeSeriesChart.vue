@@ -120,9 +120,7 @@ export default {
       this.updateSeries(newSeries);
     },
     max(newMax, oldMax) {
-      if(newMax !== oldMax) {
-        this.updateMax(newMax);
-      }
+      this.updateMax(newMax || oldMax);
     }
   },
   mounted() {
@@ -179,6 +177,9 @@ export default {
   },
   methods: {
     updateSeries(newSeries) {
+      if(!this.chart) {
+        return null;
+      }
       newSeries.forEach(p => {
         p.y = Number(p.y).toFixed(2);
         this.chart.data.datasets[0].data.push(p);

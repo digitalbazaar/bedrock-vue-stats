@@ -15,16 +15,6 @@
       </span>
     </div>
     <div>
-      <h4>Static Line Chart</h4>
-      <br-time-series-chart
-        id="static-chart"
-        :line="colors().line"
-        :fill="colors(0.8).disk"
-        :max="8"
-        :series="staticSeries"
-        label="Static Example" />
-    </div>
-    <div>
       <h4>Real time Line Chart </h4>
       <br-time-series-chart
         id="mem-used"
@@ -34,6 +24,16 @@
         :series="ramseries.chart.series"
         realtime
         label="RAM Usage GB" />
+    </div>
+    <div>
+      <h4>Static Line Chart</h4>
+      <br-time-series-chart
+        id="static-chart"
+        :line="colors().line"
+        :fill="colors(0.8).disk"
+        :max="8"
+        :series="staticSeries"
+        label="Static Example" />
     </div>
   </q-page>
 </template>
