@@ -109,6 +109,7 @@ export default {
       const next = [this.last, (1 - this.last).toFixed(2)];
       this.chart.data.datasets[0].data = next;
       this.chart.update();
+      return true;
     }
   }
 };
