@@ -44,9 +44,10 @@
 'use strict';
 
 // FIXME: chartjs is loaded as a global in index.js as a hack
-import {ChartController} from 'bedrock-web-stats';
+import {statsService, ChartController} from 'bedrock-web-stats';
 import {BrGaugeChart, BrTimeSeriesChart} from 'bedrock-vue-stats';
 import staticSeries from '../mocks/staticSeries.json';
+import units from './units';
 
 export default {
   name: 'Home',
@@ -71,18 +72,20 @@ export default {
     this.$set(this, 'cpu', new ChartController(
       {
         type: 'pie',
+        statsService,
         format: {
-          prefix({last}) {return last.monitors.os.currentLoad;},
+          prepare({latest}) {return latest.monitors.os.currentLoad;},
           last(p) {return p.avgload;},
           max(p) {return p.cpus.length;}
         }}));
     this.$set(this, 'ramseries', new ChartController(
       {
         type: 'realtime',
+        statsService,
         format: {
-          prefix({latest}) {return latest.map(r => r.monitors.os.mem);},
-          y(p) {return p.active / this.units.gb;},
-          max(p) {return p.total / this.units.gb;}
+          prepare({latest}) {return latest.monitors.os.mem;},
+          y(p) {return p.active / units.gb;},
+          max(p) {return p.total / units.gb;}
         }}));
 
   },
