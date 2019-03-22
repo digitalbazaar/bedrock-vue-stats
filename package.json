@@ -31,8 +31,8 @@
     "browserDependencies": "all"
   },
   "dependencies": {
-    "chart.js": "2.7.3",
-    "chartjs-plugin-streaming": "1.7.1"
+    "chart.js": "2.8.0",
+    "chartjs-plugin-streaming": "1.8.0"
   },
   "devDependencies": {
     "eslint": "^5.15.1",
