@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
   },
   extends: [
+    'eslint-config-digitalbazaar',
     'eslint-config-digitalbazaar/vue',
   ],
 };
